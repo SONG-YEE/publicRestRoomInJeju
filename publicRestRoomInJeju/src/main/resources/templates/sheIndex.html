@@ -7,28 +7,7 @@
     <link rel="shortcut icon" href="/favicon/favicon.ico">
     <title>쉬, 바로 고!</title>
 
-    <!-- <style>
-        .access-location {
-            background: url(//t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png);
-        }
-    </style> -->
-    <style>
-        #infoPanel {
-            position: absolute;
-            top: 20%;
-            right: -300px;
-            width: 300px;
-            height: 50%;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            transition: right 0.3s;
-            
-        }
-
-        #infoContent {
-            padding: 10px;
-        }
-    </style>
+   	<link rel="stylesheet" href="/css/common.css"
 </head>
 
 <body>
@@ -37,151 +16,50 @@
         <div class="nav-container">
             <div class="navbar-title">
 
-                <h6>제주도의 모든 공중화장실을 쉽고 빠르게</h6>
-                <h1>쉬, 바로 고!</h1>
+                <h1>쉬, 바로 고! 🚽💦  <h1>
+                <br>
+                <h5>제주도의 모든 공중화장실을 쉽고 빠르게🧻 </h5>
 
             </div>
       
         </div>
     </nav>
 
-
-
     <!-- 지도 -->
     <main>
-        <div id="map" style="width:70%;height:350px;"></div>
+        <div id="map"></div>
 
-        
-        <!-- 화장실 정보창 -->
-        <div id="infoPanel">
-            <div id="infoContent"></div>
+        <!-- 화장실 정보창 모달 -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="modal-body">
+                    <div class="modal-image">
+                        <img id="modalImage" src="" alt="화장실 사진">
+                        <div class="arrow-buttons">
+                            <button id="prevButton" class="arrow-button">&#9664;</button>
+                            <button id="nextButton" class="arrow-button">&#9654;</button>
+                        </div>
+                    </div>
+                    <div class="modal-info" id="modalInfo">
+                        <!-- 정보 -->
+                        <div id="infoContent"></div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- 지도 줌 컨트롤러 / 현위치-->
         <div class="map-control-view">
             <div id="zoomControl"></div>
 
-            <!-- <a href="#none" class="access-location"></a> -->
-            <button id="moveToCurrentLocation">현위치 버튼</button>
+            <button id="moveToCurrentLocation"></button>
         </div>
     </main>
 
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9004ec8ff09853175348491ab03925fb">
     </script>
-
-
-    <!-- ////////지도용 JS//////// -->
-    <script>
-        // fetch api로 통신
-        const apiUrl = 'http://localhost:8080/toilet';
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(resultList => {
-                console.log(':::resultList::: ', resultList);
-
-                let mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-                    mapOption = { 
-                        center: new kakao.maps.LatLng(33.507072, 126.492770), // 지도의 중심좌표
-                        level: 7 // 지도의 확대 레벨
-                    };
-        
-                let map = new kakao.maps.Map(mapContainer, mapOption);
-
-                let infoPanel = document.getElementById('infoPanel');
-                let infoContent = document.getElementById('infoContent');
-                
-                // 마커 이미지 변경 (오리지널)
-                let imageSrc = '/images/toilet.png', // 마커이미지 주소    
-                	imageSize = new kakao.maps.Size(29, 40), // 마커이미지 크기입
-                	imageOption = {offset: new kakao.maps.Point(27, 40)}; // 마커이미지 옵션. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정
-                
-
-                // 클릭된 마커 이미지
-                let clickedImgSrc = '/images/clickedToilet.png',
-                    clickedImgSize = new kakao.maps.Size(36, 50),
-                    clickedImageOption = {offset: new kakao.maps.Point(27, 50)};
-                
-                // 원본 마커 이미지 생성
-                let originalMarkerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-
-                // 클릭된 마커 이미지 생성
-                let clickedMarkerImage = new kakao.maps.MarkerImage(clickedImgSrc, clickedImgSize, clickedImageOption);
-
-                // 지도 줌 컨트롤 생성 (지도 div 바로 옆으로 옮기는 거 생각 중)
-                let zoomControl = new kakao.maps.ZoomControl();
-                map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-
-                // 현위치
-				// HTML5의 geolocation으로 사용할 수 있는지 확인 
-				function moveToCurrentLocation() {
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function (position) {
-                            let lat = position.coords.latitude,
-                                lon = position.coords.longitude;
-                            let locPosition = new kakao.maps.LatLng(lat, lon);
-                         
-                            map.setCenter(locPosition);
-                        });
-                    }
-                }
-
-                // HTML 요소에 이벤트 리스너 등록
-                document.getElementById('moveToCurrentLocation').addEventListener('click', moveToCurrentLocation);
-
-                // 마커 배열
-                let markers = [];
-
-                // 마커 찍기
-                resultList.forEach(infoList => {
-                    let markerPosition = new kakao.maps.LatLng(infoList.laCrdnt, infoList.loCrdnt);
-                    
-                    let marker = new kakao.maps.Marker({
-                        position: markerPosition,
-                        image: originalMarkerImage
-                    });
-
-                    marker.setMap(map);
-
-                    markers.push(marker);
-
-                    // 마커 클릭 이벤트 등록
-                    kakao.maps.event.addListener(marker, 'click', function() {
-
-                        // 이전에 클릭한 마커를 원래대로 돌리기
-                        markers.forEach(m => {
-                            m.setImage(originalMarkerImage);
-                        });
-
-                        // 현재 클릭된 마커 이미지 변경
-                        marker.setImage(clickedMarkerImage);
-
-                        // 클릭된 마커로 지도 이동 및 확대
-                        map.setCenter(markerPosition);
-                        map.setLevel(3);
-
-
-                        // 마커 클릭하면 정보 패널에 내용 표시
-                        infoContent.innerHTML = `<div>
-                                                    ${infoList.toiletNm} 화장실 (${infoList.emdNm})<br>
-                        						    ${infoList.rnAdres} <br>
-                        							(구주소 : ${infoList.lnmAdres}) <br>
-                        							개방 시간 : ${infoList.opnTimeInfo} <br>
-                        							남녀공용 : ${infoList.mwmnCmnuseToiletYn} <br>
-                                                    외관 사진 <br>
-                                                    길찾기 (카카오) <br>
-                                                </div>`;
-
-                        // 정보 패널 우측으로 나타나게 설정
-                        infoPanel.style.right = '0';
-
-                        // 마커 클릭하면 경도, 위도 콘솔에 뜸
-                        console.log('위도, 경도: ', infoList.laCrdnt, ', ', infoList.loCrdnt);
-                    });
-                });
-            })
-            .catch(error => console.error('Error : ', error));
-    </script>
+	<script src="/js/map.js"></script>
 </body>
 </html>

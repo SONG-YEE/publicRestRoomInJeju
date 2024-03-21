@@ -80,30 +80,8 @@ public class ApiService {
 				JSONArray item = (JSONArray) items.get("item");
 				
 				totalData = body.get("totalCount");
-//				System.out.println("tttttttttooooooooootttttttaaaaallllllllll " + totalData);
-//				System.out.println(totalData.getClass().getName()); //토탈데이터는 long타입임을 알 수 있었다!
-				
-				Long fixedTotalData = 415L;	// 그래서 그냥 아예 픽스해버림~
-				
-				// 토탈데이터를 행 개수로 해서 재접속
-//				if (!totalData.equals(fixedTotalData)) {
-//					
-//				}
-				
-				
-			 // body -> items로 변경했다가 null 떠서 다시 body로 함 ( [{}] 형태라서 그랬던 듯? )
-//				for(Object key : body.keySet()) {
-//					
-//					String keyStr = (String) key;
-//					Object value = body.get(keyStr);
-//					System.out.println(keyStr + " : " + value);
-//					
-//				}
-//				
-//				System.out.println("item.size() 출력 : " + item.size());
-				
-				
-//				List<ToiletInfoVo> resultList = new ArrayList<>();
+//				System.out.println(":::토탈데이터 데이터타입::: " + totalData);
+//				System.out.println(totalData.getClass().getName()); //토탈데이터는 long타입임
 				
 				// item에서 하나씩 JSONObject로 cast해서 사용
 				for(int i = 0; i < item.size(); i++) {
@@ -139,33 +117,7 @@ public class ApiService {
 		            System.out.println(vo);
 		        }
 				
-				
-				// item에서 하나씩 JSONObject로 cast해서 사용(내가 했던 고전 방법)
-//				if(item.size() > 0) {
-//					
-//				    for(int i = 0; i < item.size(); i++) {
-//				    
-//				    	JSONObject jsonObj = (JSONObject)item.get(i);
-//				        
-////				        System.out.println((String)jsonObj.get("toiletNm")); 
-//				        
-//				    }
-//				    
-//				}
-				
-				
-				
-//				for(Object obj : item) {
-//					JSONObject jsonObj = (JSONObject) obj;
-//					
-//					for(Object key : jsonObj.keySet()) {
-//						String keyStr = (String) key;
-//						Object value = jsonObj.get(keyStr);
-//						System.out.println(keyStr + " : " + value);
-//					}
-//				}
-				
-				
+
 		
 			} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

@@ -1,0 +1,146 @@
+@font-face {
+    font-family: 'MonoplexKR-Italic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_Monoplex-kr@1.0/MonoplexKR-Italic.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    font-size: 20px;
+    font-family: 'MonoplexKR-Italic';
+    background-color: rgb(255, 255, 247);
+}
+
+main {
+    padding-top: 1.5rem;
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+	padding-top: 1rem;
+	padding-left: 2.5rem;
+}
+
+#map {
+	width: 90%;
+	height: 70vh;
+}
+
+/* 현위치 버튼 오른쪽 정렬하기 */
+.map-control-view {
+	display: flex;
+	justify-content: flex-end;
+	padding-right: calc(100% - 90%); 
+}
+
+/* 모달 css */
+#myModal {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-image {
+    width: 70%;
+    position: relative;
+}
+
+.modal-image img {
+    max-width: 100%;
+    max-height: 80vh;
+    display: block;
+    margin: 0 auto;
+}
+
+.arrow-buttons {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.arrow-buttons button {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.arrow-buttons button:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.modal-info {
+    width: 50%;
+    padding-left: 20px;
+}
+
+#zoomControl {
+    z-index: 1;
+}
+
+#moveToCurrentLocation {
+	display: block;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    padding: 1px 3px 5px;
+    background: url(//t1.daumcdn.net/localimg/localimages/07/2018/pc/common/img_search.png)
+    			no-repeat -154.5px -453px
+}
+
+
+/* 반응형 웹 만들기 위한 미디어 쿼리 */
+@media all and (min-width: 1024px) {
+    .inner {
+        max-width: 1024px;
+        margin: 0 auto;
+    }
+}
