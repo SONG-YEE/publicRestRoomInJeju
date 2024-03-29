@@ -85,13 +85,6 @@ fetch(apiUrl)
                 map.setCenter(markerPosition);
                 map.setLevel(3);
 
-
-                // 줌 컨트롤러 숨기기
-                function hideZoomControl() {
-                    document.getElementById('zoomControl').style
-                }
-                
-
                 // 모달 내용 업데이트 (밑에 짜놓은 함수 활용)
                 updateModalContent(infoList);
                 
